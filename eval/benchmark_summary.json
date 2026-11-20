@@ -1,0 +1,134 @@
+{
+  "schema_version": "qwen3.5-4b-memory-v2-benchmark-summary",
+  "base_model": "Qwen/Qwen3.5-4B",
+  "license": "Apache-2.0",
+  "benchmark_overview": {
+    "total_cases": 50,
+    "extraction_cases": 20,
+    "admission_cases": 30,
+    "admission_candidate_slots": 109,
+    "admission_gold_pass_slots": 88,
+    "admission_gold_revise_slots": 21,
+    "constrained_schema_decoding": false,
+    "notes": "Frozen 50-case internal validation suite evaluated without constrained grammar decoding (raw model JSON output)."
+  },
+  "artifacts": {
+    "gguf_q8_0": {
+      "filename": "qwen3.5-4b-memory-v2-Q8_0.gguf",
+      "bytes": 4482402624,
+      "sha256": "be3259d5b1e2e78a49ee889247504188dd721a03c3df420a902b754d14d08ead"
+    },
+    "gguf_q4_k_m": {
+      "filename": "qwen3.5-4b-memory-v2-Q4_K_M.gguf",
+      "bytes": 2708803904,
+      "sha256": "58d2b7939b43069cc2c610107a2f802f6c869ac30707bd183fc36dd670784e66"
+    },
+    "lora_adapter": {
+      "filename": "adapter_model.safetensors",
+      "bytes": 84972248,
+      "sha256": "0806fd9f1e1cfd038da7f210b25e41cfcb893b360b5f49e7ca0f43d7c89fc235",
+      "rank": 16,
+      "lora_alpha": 32
+    }
+  },
+  "models": {
+    "qwen3.5:9b (raw baseline)": {
+      "extraction": {
+        "schema_valid_rate": 0.45,
+        "schema_valid_count": 9,
+        "cases": 20,
+        "hallucinated_evidence_facts": 0,
+        "record_date_leaks": 7,
+        "mean_gold_fact_recall": 0.0387,
+        "mean_token_f1": 0.1485,
+        "mean_evidence_f1": 0.4218,
+        "mean_latency_sec": 43.113
+      },
+      "admission": {
+        "schema_valid_rate": 0.2,
+        "schema_valid_count": 6,
+        "cases": 30,
+        "exact_batch_match_rate": 0.2,
+        "slot_decision_accuracy": 0.3303,
+        "error_interception_rate": 0.0,
+        "clean_pass_retention_rate": 0.4091,
+        "mean_evidence_f1": 0.2415,
+        "mean_latency_sec": 4.487
+      }
+    },
+    "qwen3.5:4b-q4_K_M (raw baseline)": {
+      "extraction": {
+        "schema_valid_rate": 0.45,
+        "schema_valid_count": 9,
+        "cases": 20,
+        "hallucinated_evidence_facts": 0,
+        "record_date_leaks": 5,
+        "mean_gold_fact_recall": 0.0875,
+        "mean_token_f1": 0.1159,
+        "mean_evidence_f1": 0.4287,
+        "mean_latency_sec": 23.806
+      },
+      "admission": {
+        "schema_valid_rate": 0.0,
+        "schema_valid_count": 0,
+        "cases": 30,
+        "exact_batch_match_rate": 0.0,
+        "slot_decision_accuracy": 0.0,
+        "error_interception_rate": 0.0,
+        "clean_pass_retention_rate": 0.0,
+        "mean_evidence_f1": 0.0,
+        "mean_latency_sec": 2.169
+      }
+    },
+    "qwen3.5:4b-memory-v2 (Q4_K_M)": {
+      "composite_score": 0.71338,
+      "extraction": {
+        "schema_valid_rate": 1.0,
+        "schema_valid_count": 20,
+        "cases": 20,
+        "hallucinated_evidence_facts": 0,
+        "record_date_leaks": 0,
+        "mean_gold_fact_recall": 0.4096,
+        "mean_token_f1": 0.4121,
+        "mean_evidence_f1": 0.6517,
+        "mean_latency_sec": 11.643
+      },
+      "admission": {
+        "schema_valid_rate": 0.9667,
+        "schema_valid_count": 29,
+        "cases": 30,
+        "exact_batch_match_rate": 0.8333,
+        "slot_decision_accuracy": 0.9358,
+        "error_interception_rate": 0.7143,
+        "clean_pass_retention_rate": 0.9886,
+        "mean_evidence_f1": 0.7175,
+        "mean_latency_sec": 2.977
+      }
+    },
+    "qwen3.5:4b-memory-v2 (Q8_0, recommended)": {
+      "composite_score": 0.77463,
+      "extraction": {
+        "schema_valid_rate": 1.0,
+        "schema_valid_count": 20,
+        "cases": 20,
+        "hallucinated_evidence_facts": 0,
+        "record_date_leaks": 0,
+        "mean_gold_fact_recall": 0.4388,
+        "mean_token_f1": 0.4339,
+        "mean_evidence_f1": 0.7006,
+        "mean_latency_sec": 13.547
+      },
+      "admission": {
+        "schema_valid_rate": 1.0,
+        "schema_valid_count": 30,
+        "cases": 30,
+        "exact_batch_match_rate": 0.9333,
+        "slot_decision_accuracy": 0.9725,
+        "error_interception_rate": 0.9048,
+        "clean_pass_retention_rate": 0.9886,
+        "mean_evidence_f1": 0.7455,
+        "mean_latency_sec": 3.789
+      }
+    }
+  }
+}

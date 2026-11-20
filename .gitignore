@@ -1,0 +1,17 @@
+# Large model weights (hosted on Hugging Face / ModelScope / Ollama)
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Python & local outputs
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+eval_out/
+*.log
+.DS_Store
+Thumbs.db

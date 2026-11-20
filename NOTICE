@@ -1,0 +1,14 @@
+Qwen3.5-4B-Memory-V2
+Copyright 2026 lifdjgfndgn
+
+This project and its model weights are licensed under the Apache License, Version 2.0.
+
+Derivative Work Attribution:
+This model is a fine-tuned derivative work based on Qwen/Qwen3.5-4B,
+originally developed by the Qwen Team, Alibaba Cloud, and distributed
+under the Apache License, Version 2.0 (https://huggingface.co/Qwen/Qwen3.5-4B).
+
+Summary of Modifications:
+- Fine-tuned via LoRA (r=16, alpha=32) for structured fact extraction and
+  pre-write fact verification / revision in local memory pipelines.
+- Exported merged GGUF quantizations (Q8_0 and Q4_K_M) and Ollama Modelfiles.
