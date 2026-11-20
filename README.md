@@ -21,9 +21,9 @@
 
 | 平台 | 提供内容 | 链接 / 命令 |
 | :--- | :--- | :--- |
-| **ModelScope 魔搭** | ✅ **全量已上线**：`Q8_0` / `Q4_K_M` GGUF + LoRA 适配器（国内高速） | https://modelscope.cn/models/IMLIULIAN/qwen3.5-4b-memory-v2 |
-| **Hugging Face** | 国际镜像（Model Card / Modelfile / LoRA，GGUF 同步中） | https://huggingface.co/IMLIULIAN/qwen3.5-4b-memory-v2 |
-| **Ollama Library** | 一键拉取运行 | `ollama run imliulian/qwen3.5-4b-memory:v2` *(待推送)* |
+| **Hugging Face** | ✅ **全量已上线**：`Q8_0` / `Q4_K_M` GGUF + LoRA 适配器 + Model Card | https://huggingface.co/IMLIULIAN/qwen3.5-4b-memory-v2 |
+| **ModelScope 魔搭** | ✅ **全量已上线**：国内高速镜像（`Q8_0` / `Q4_K_M` GGUF + LoRA） | https://modelscope.cn/models/IMLIULIAN/qwen3.5-4b-memory-v2 |
+| **Ollama 一键运行** | ✅ 直接拉取 Hugging Face GGUF 运行 | `ollama run hf.co/IMLIULIAN/qwen3.5-4b-memory-v2:Q8_0`（或 `:Q4_K_M`） |
 
 ### 权重文件与 SHA-256 校验值
 

@@ -21,9 +21,9 @@ This GitHub repository hosts documentation, Ollama `Modelfile` templates, runtim
 
 | Platform | Artifacts | Link / Command |
 | :--- | :--- | :--- |
-| **ModelScope** | ✅ **Full Release Live**: `Q8_0` / `Q4_K_M` GGUF + LoRA adapter | https://modelscope.cn/models/IMLIULIAN/qwen3.5-4b-memory-v2 |
-| **Hugging Face** | Global mirror (Model Card / Modelfile / LoRA; GGUF syncing) | https://huggingface.co/IMLIULIAN/qwen3.5-4b-memory-v2 |
-| **Ollama Library** | One-command pull & run | `ollama run imliulian/qwen3.5-4b-memory:v2` *(pending push)* |
+| **Hugging Face** | ✅ **Full Release Live**: `Q8_0` / `Q4_K_M` GGUF + LoRA adapter + Model Card | https://huggingface.co/IMLIULIAN/qwen3.5-4b-memory-v2 |
+| **ModelScope** | ✅ **Full Release Live**: Fast mirror (`Q8_0` / `Q4_K_M` GGUF + LoRA) | https://modelscope.cn/models/IMLIULIAN/qwen3.5-4b-memory-v2 |
+| **Ollama (Direct Pull)** | ✅ One-command pull via Hugging Face GGUF | `ollama run hf.co/IMLIULIAN/qwen3.5-4b-memory-v2:Q8_0` (or `:Q4_K_M`) |
 
 ### Checksums (SHA-256)
 
