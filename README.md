@@ -2,42 +2,98 @@
 
 [English](README_EN.md) | 简体中文
 
-> **基于 `Qwen/Qwen3.5-4B`（Apache-2.0）微调的轻量级本地记忆处理专用模型**：专注 **结构化事实抽取**（Fact Extraction）与 **写前事实验收纠错**（Fact Admission），以 **2.7 GB – 4.5 GB** 的超小体积，在结构化合规率、证据溯源与错误拦截率上大幅超越原版 `Qwen3.5-9B`，推理速度提升 **3 倍以上**。
+> **基于 `Qwen/Qwen3.5-4B`（Apache-2.0）微调的轻量本地记忆处理专用模型**：面向 **结构化事实抽取**（Fact Extraction）与 **写前事实验收纠错**（Fact Admission）两类后端任务。在 **2.71 GB – 4.48 GB**（GGUF）体积下，在本项目 50 题冻结验证集上的结构化合规率、证据溯源与错误拦截表现明显高于未微调的 `Qwen3.5-9B`，单题抽取耗时缩短约 **3 倍以上**。
 
 ---
 
-## 核心亮点
+## 核心特性
 
-- **小体积越级打大底座**：`Q8_0`（4.48 GB）与 `Q4_K_M`（2.71 GB）均实现 **100% 事实抽取 Schema 合规**与 **0 次记录日期串扰**（Record-Date Leak）；在写前事实验收任务上，`Q8_0` 槽位判定准确率达 **97.25%**、错误拦截率达 **90.48%**（原版 `9B` 为 0.0%）。
-- **零幻觉证据绑定**：每条抽取事实均严格绑定输入原文段 ID（`s0, s1, ...`），在 50 题冻结验证集上实现 **0 条伪造证据引用**。
-- **端侧常驻友好**：配合 `Ollama` / `llama.cpp` 可 100% GPU 常驻运行（`Q4_K_M` 约 3.4 GB 显存，`Q8_0` 约 5.2 GB 显存，`num_ctx=16384`），适合本地 AI 记忆系统、个人知识库与 Agent 后台整理服务。
-- **友好开源协议**：沿用底座 **Apache-2.0** 协议，可自由研究、修改与商业使用（详见 [LICENSE](LICENSE) 与 [NOTICE](NOTICE)）。
+- **面向记忆流水线的专项微调**：在 50 题冻结验证集上，`Q8_0`（4.48 GB）与 `Q4_K_M`（2.71 GB）均达到 **100% 事实抽取 Schema 合规**与 **0 次记录日期串扰**（Record-Date Leak）；在写前事实验收任务上，`Q8_0` 槽位判定准确率为 **97.3%**（97.25%）、错误拦截率为 **90.5%**（19/21，同集未微调 `Qwen3.5-9B` 为 0/21）。
+- **原文段 ID 证据绑定**：每条抽取事实均绑定输入原文段 ID（`s0, s1, ...`），在 50 题冻结验证集上未出现伪造证据引用（**0 条**）。
+- **端侧常驻运行友好**：配合 `Ollama` / `llama.cpp` 可在本地 GPU 常驻运行（`Q4_K_M` 约 3.4 GB 显存，`Q8_0` 约 5.2 GB 显存，`num_ctx=16384`；显存较紧时可设为 `8192`），适合个人记忆系统、本地知识库与 Agent 后台整理服务。
+- **配套开箱即用引擎**：提供轻量开源记忆引擎 **[ZeroMem（零忆）](https://github.com/IMLIULIAN/zeromem)**，免去手动拼接提示词、切块与存储流程，支持 CLI / Python SDK、4 工具 MCP 服务与原生桌面工作台。
+- **Apache-2.0 开源协议**：沿用底座 **Apache-2.0** 协议，可自由研究、修改与商业使用（详见 [LICENSE](LICENSE) 与 [NOTICE](NOTICE)）。
 
 ---
 
 ## 模型下载与托管分工
 
-本仓库（GitHub）提供使用文档、`Modelfile`、标准推理 Prompt 合同、合成样例与验证脚本；大体积模型权重托管在以下模型平台：
+本仓库（GitHub）提供使用文档、`Modelfile`、标准推理 Prompt 合同、合成样例与验证脚本；模型权重与配套运行引擎托管在以下仓库：
 
-| 平台 | 提供内容 | 链接 / 命令 |
+| 平台 / 仓库 | 提供内容 | 链接 / 命令 |
 | :--- | :--- | :--- |
-| **Hugging Face** | ✅ **全量已上线**：`Q8_0` / `Q4_K_M` GGUF + LoRA 适配器 + Model Card | https://huggingface.co/IMLIULIAN/qwen3.5-4b-memory-v2 |
-| **ModelScope 魔搭** | ✅ **全量已上线**：国内高速镜像（`Q8_0` / `Q4_K_M` GGUF + LoRA） | https://modelscope.cn/models/IMLIULIAN/qwen3.5-4b-memory-v2 |
-| **Ollama 一键运行** | ✅ 直接拉取 Hugging Face GGUF 运行 | `ollama run hf.co/IMLIULIAN/qwen3.5-4b-memory-v2:Q8_0`（或 `:Q4_K_M`） |
+| **ZeroMem（配套本地记忆引擎）** | 开箱即用轻量引擎：零第三方依赖、MCP 服务、7 款 Agent 接入、原生桌面工作台 | https://github.com/IMLIULIAN/zeromem |
+| **ModelScope 魔搭** | 已上线：国内镜像（`Q8_0` / `Q4_K_M` GGUF + LoRA） | https://modelscope.cn/models/IMLIULIAN/qwen3.5-4b-memory-v2 |
+| **Hugging Face** | 已上线：`Q8_0` / `Q4_K_M` GGUF + LoRA 适配器 + Model Card | https://huggingface.co/IMLIULIAN/qwen3.5-4b-memory-v2 |
+| **Ollama 直接拉取** | 直接从 Hugging Face 拉取 GGUF 运行 | `ollama run hf.co/IMLIULIAN/qwen3.5-4b-memory-v2:Q8_0`（或 `:Q4_K_M`） |
 
 ### 权重文件与 SHA-256 校验值
 
 | 产物 | 推荐场景 | 文件大小 | SHA-256 |
 | :--- | :--- | :---: | :--- |
-| `qwen3.5-4b-memory-v2-Q8_0.gguf` | **主力推荐**：最高事实验收与纠错精度 | 4,482,402,624 B (~4.48 GB) | `be3259d5b1e2e78a49ee889247504188dd721a03c3df420a902b754d14d08ead` |
-| `qwen3.5-4b-memory-v2-Q4_K_M.gguf` | **低显存/轻量常驻**：极限压缩显存与最快速度 | 2,708,803,904 B (~2.71 GB) | `58d2b7939b43069cc2c610107a2f802f6c869ac30707bd183fc36dd670784e66` |
-| `adapter_model.safetensors` | **研究者/二次集成**：PEFT LoRA 适配器（`r=16, alpha=32`） | 84,972,248 B (~81.0 MB) | `0806fd9f1e1cfd038da7f210b25e41cfcb893b360b5f49e7ca0f43d7c89fc235` |
+| `qwen3.5-4b-memory-v2-Q8_0.gguf` | **常规推荐**：写前事实验收与纠错表现更稳 | 4,482,402,624 B (~4.48 GB) | `be3259d5b1e2e78a49ee889247504188dd721a03c3df420a902b754d14d08ead` |
+| `qwen3.5-4b-memory-v2-Q4_K_M.gguf` | **低显存 / 轻量常驻**：更低显存占用与更快响应 | 2,708,803,904 B (~2.71 GB) | `58d2b7939b43069cc2c610107a2f802f6c869ac30707bd183fc36dd670784e66` |
+| `adapter_model.safetensors` | **研究者 / 二次集成**：PEFT LoRA 适配器（`r=16, alpha=32`） | 84,972,248 B (~81.0 MB) | `0806fd9f1e1cfd038da7f210b25e41cfcb893b360b5f49e7ca0f43d7c89fc235` |
 
 ---
 
-## 评测表现（50 题冻结验证集，无语法约束解码）
+## 配套本地记忆引擎：ZeroMem（零忆）
 
-以下指标均在 **关闭受限语法解码**（Constrained Grammar = Off）的原始 JSON 生成条件下测得（20 题结构化事实抽取 + 30 题写前事实验收，共 109 个候选槽位；原始数字见 [eval/benchmark_summary.json](eval/benchmark_summary.json)）：
+如果你希望直接把本模型用作 AI 助手或本地项目的长期记忆层，而无需自行实现微切块、双合同调用、规则守卫与索引检索，可直接使用配套开源仓库 **[ZeroMem（零忆）](https://github.com/IMLIULIAN/zeromem)**（[English Docs](https://github.com/IMLIULIAN/zeromem/blob/main/README_EN.md)）：
+
+- **无第三方 Python 依赖**：仅依赖 Python 3.9+ 标准库与 Ollama（含 MCP stdio 服务端与基于 `tkinter` 的原生桌面记忆工作台）。
+- **无向量库与 Embedding 模型**：采用单文件 SQLite（WAL）+ 双轨 FTS5 索引，兼顾精炼事实与原文片段溯源。
+- **写入零云端 API 费用 + 本地脱敏**：由本地 `Qwen3.5-4B-Memory-V2` 完成抽取与写前审校，入库前自动将常见凭据脱敏为 `[REDACTED]`。
+- **自动硬件选档与 7 款主流 Agent 接入**：按显存/统一内存自动推荐 `Q8_0` 或 `Q4_K_M` 及 `num_ctx`，支持自动备份 `.bak` 并接入 Claude Desktop、Claude Code、Cursor、Windsurf、Codex CLI、Antigravity、DeepSeek Harness (DSH)。
+
+### 快速安装 ZeroMem（自动拉取并注册本模型）
+
+**方案二：Agent MCP 版（默认，自动检测硬件、拉取模型并配置已装 Agent）**
+
+Windows (PowerShell)：
+
+```powershell
+$env:ZEROMEM_MODE="mcp"; $env:ZEROMEM_AUTO_DEPS="1"; $env:ZEROMEM_CONNECT_ALL="1"
+irm https://raw.githubusercontent.com/IMLIULIAN/zeromem/main/install.ps1 | iex
+```
+
+macOS / Linux：
+
+```bash
+ZEROMEM_MODE=mcp ZEROMEM_AUTO_DEPS=1 ZEROMEM_CONNECT_ALL=1 curl -fsSL https://raw.githubusercontent.com/IMLIULIAN/zeromem/main/install.sh | bash
+```
+
+**备选：`pip` 安装（支持方案二 Agent MCP 版 / 方案一轻量省钱版）**
+
+```bash
+pip install git+https://github.com/IMLIULIAN/zeromem.git
+zmem setup --mode mcp --connect-all   # 方案二：Agent MCP 版
+zmem setup --mode fast                # 方案一：轻量省钱版（CLI / Python SDK 单次预注）
+```
+
+> 海外网络环境可追加 `ZEROMEM_SOURCE=hf`（或 `--source hf`）从 Hugging Face 拉取；国内环境默认走自动源/魔搭镜像并校验 SHA-256。
+
+### 5.2 万字端到端对照实测摘要（ZeroMem + DeepSeek API）
+
+在一组 **71 篇合成工程文档（51,947 字 / 385 条事实）× 12 道客观题** 上，使用云端 DeepSeek API（`deepseek-flash`）对比了 4 种接入方式（本地 V2 写入云端费 `¥0`）：
+
+| 核心指标 | A 组：裸调（新会话） | B 组：全量历史注入 | 方案一（C 组）：单次检索预注 | 方案二（D 组）：MCP 自主拆查 |
+| :--- | :---: | :---: | :---: | :---: |
+| **客观准确率** | 2/12 (16.7%) | 12/12 (100.0%) | **11/12 (91.7%)** | **12/12 (100.0%)** |
+| **单题平均输入 Token** | 1,629 | 31,720 | **1,821（-94.3%）** | **4,296（-86.5%）** |
+| **12 题冷启动费用（无缓存）** | ¥0.053 | ¥0.770 | **¥0.054（-93.0%）** | **¥0.120（-84.4%）** |
+| **12 题含缓存实付估算** | ¥0.026 | ¥0.149 | **¥0.033（-78.0%）** | **¥0.078（-47.7%）** |
+| **单题平均耗时** | 9.27s | 7.20s | **6.46s** | 9.84s（含多轮工具调用） |
+| **云端明文密钥暴露** | 0 | **24 次** | **0 次** | **0 次** |
+| **附带原文证据溯源** | 0/12 | 0/12 | **12/12** | **12/12** |
+
+> **评测边界说明**：这是一组小规模受控对照实验（71 篇合成工程文档、12 道客观题），主要用于观察不同接入模式在上下文开销、费用趋势与凭据脱敏上的相对差异，不作为通用能力排名；实际表现会随业务语料结构、语种比例与提问复杂度而变化。完整图表、规模对比与使用说明见 [IMLIULIAN/zeromem](https://github.com/IMLIULIAN/zeromem)。
+
+---
+
+## 模型单测表现（50 题冻结验证集，无语法约束解码）
+
+以下指标均在 **关闭受限语法解码**（Constrained Grammar = Off）的原始 JSON 生成条件下测得（20 题结构化事实抽取 + 30 题写前事实验收，共 109 个候选槽位；原始汇总见 [eval/benchmark_summary.json](eval/benchmark_summary.json)）：
 
 | 指标 | `Qwen3.5-9B` (原版) | `Qwen3.5-4B` (原版 Q4_K_M) | **`V2 (Q4_K_M)`** | **`V2 (Q8_0 推荐)`** |
 | :--- | :---: | :---: | :---: | :---: |
@@ -54,9 +110,13 @@
 | **验收 · 正确事实保留率 (`pass`)** | 40.9% | 0.0% | **98.9% (87/88)** | **98.9% (87/88)** |
 | **综合得分（Composite）** | — | — | **0.7134** | **0.7746** |
 
+> **说明**：上述 50 题冻结验证集仅衡量本项目两项记忆子任务在相同 Prompt 合同下的结构化输出与纠错表现，不用于表征模型的通用对话或综合基准能力。
+
 ---
 
-## 30 秒快速上手（Ollama）
+## 手动接入与验证（Ollama）
+
+如果你希望在自有流水线中直接调用模型，可手动注册并运行合成校验脚本：
 
 ### 1. 从本地 GGUF 注册模型
 
@@ -70,9 +130,9 @@ ollama create qwen3.5:4b-memory-v2 -f modelfiles/Modelfile.q8_0
 ollama create qwen3.5:4b-memory-v2-q4 -f modelfiles/Modelfile.q4_k_m
 ```
 
-### 2. 一键运行公开合成样例验证
+### 2. 运行公开合成样例验证
 
-仓库内置 8 条完全虚构的公开合成测试样例（4 条事实抽取 + 4 条写前验收），拉下来即可验证部署是否正常：
+仓库内置 8 条完全虚构的公开合成测试样例（4 条事实抽取 + 4 条写前验收），拉取后可直接核验本地部署是否正常：
 
 ```bash
 python scripts/verify_ollama.py --model qwen3.5:4b-memory-v2 --num-ctx 16384
@@ -93,15 +153,15 @@ python scripts/verify_ollama.py --model qwen3.5:4b-memory-v2 --num-ctx 16384
   - `temperature`: `0`（确定性抽取与判定）
   - `presence_penalty`: `0`（避免惩罚合法 JSON 重复字段键名）
   - `top_p`: `0.95`, `top_k`: `20`
-  - `num_ctx`: `16384`（常驻部署建议统一上下文长度，防止重复加载）
+  - `num_ctx`: `16384`（常驻部署建议统一上下文长度以减少重载；显存较紧时可按硬件设为 `8192`）
 
 ---
 
 ## 适用边界与局限说明
 
-- **专用任务模型**：本模型专门针对“原文分段 → 结构化事实抽取”和“候选事实对照原文 → 放行/修订/丢弃/挂起”两类后端记忆流水线任务优化，**不推荐用于开放域闲聊、创意写作或复杂数学/编程推理**。
-- **遵循输入证据**：模型强依赖结构化的 `evidence` 分段 JSON 输入；建议严格沿用 `prompts/` 中的 System Prompt 与输入字段约定以获得最佳合规率。
-- **验收判定倾向**：V2 在 `pass`（忠实放行）与 `revise`（精准改错拦截）上经过重点强化；遇到与单段原文冲突的错误候选时，模型通常倾向直接返回 `revise` 并给出忠实替换文本，而非 `drop`。
+- **专用任务模型**：本模型针对“原文分段 → 结构化事实抽取”和“候选事实对照原文 → 放行/修订/丢弃/挂起”两类后端记忆流水线任务微调，**不推荐用于开放域闲聊、创意写作或复杂数学/编程推理**。
+- **遵循输入证据**：模型强依赖结构化的 `evidence` 分段 JSON 输入；建议沿用 `prompts/` 中的 System Prompt 与输入字段约定（或直接通过 [ZeroMem](https://github.com/IMLIULIAN/zeromem) 调用）以获得更稳定的格式合规率。
+- **验收判定倾向**：V2 在 `pass`（忠实放行）与 `revise`（改错修订拦截）上经过重点微调；遇到与单段原文冲突的错误候选时，模型通常倾向直接返回 `revise` 并给出忠实替换文本，而非 `drop`。
 - **训练方法与数据说明**：本仓库公开模型权重、推理合同、合成评测样例与验证脚本，训练数据及训练方法暂不公开。
 
 ---
