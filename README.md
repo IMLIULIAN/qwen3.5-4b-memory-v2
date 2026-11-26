@@ -166,7 +166,10 @@ python scripts/verify_ollama.py --model qwen3.5:4b-memory-v2 --num-ctx 16384
 
 ---
 
-## 许可证与致谢
+## 许可证、血缘归属与生态说明
 
-- 本项目及其发布权重遵循 [Apache License 2.0](LICENSE)。
-- 衍生自阿里云通义千问团队开源的 [Qwen/Qwen3.5-4B](https://huggingface.co/Qwen/Qwen3.5-4B)（Apache-2.0），详见 [NOTICE](NOTICE)。
+- **作者**：**B站IM榴莲 (IMLIULIAN)** · **ZeroZoneX**
+- **开源协议**：本项目及其发布权重遵循 [Apache License 2.0](LICENSE)，衍生自阿里云通义千问团队开源的 [Qwen/Qwen3.5-4B](https://huggingface.co/Qwen/Qwen3.5-4B)（Apache-2.0），详见 [NOTICE](NOTICE)。
+- **配套本地引擎**：[`ZeroMem（零忆）`](https://github.com/IMLIULIAN/zeromem)（Python 零依赖单文件 SQLite/FTS5 引擎，Apache-2.0）与 [`@imliulian/dsh-zeromem`](https://github.com/IMLIULIAN/dsh-zeromem)（DeepSeek Harness 插件，AGPL-3.0）。
+- **Schema 血缘与兼容致谢**：本模型事实抽取/写前审校协议中的结构化字段约定（`bank`、`type: world | experience | observation`、`occurred_start` / `occurred_end` / `mentioned_at`、`where`、`entities`）受开源项目 [**Vectorize Hindsight**](https://github.com/vectorize-io/hindsight)（MIT License）启发并保持概念/Schema 兼容，便于接入 Hindsight 兼容记忆流水线及 ZeroMem 本地引擎；本仓库不含 Hindsight 源码。
+- **同名论文消歧**：配套引擎 **ZeroMem（零忆）** 是由 **B站IM榴莲 (IMLIULIAN) / ZeroZoneX** 独立开发的本地记忆引擎，与学术论文 *Zero-Mem: Zero-Token Memory Operations for LLM Agents*（Yilin Xiao et al., [arXiv:2607.29377](https://arxiv.org/abs/2607.29377), 2026 年 7 月）名称相近，但两者完全独立，无作者、代码、模型或隶属关系。

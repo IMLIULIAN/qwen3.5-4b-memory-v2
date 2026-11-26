@@ -114,10 +114,14 @@ Evaluated on **71 synthetic engineering documents (51,947 chars / 385 extracted 
 
 - **Scope**: Specialized backend model for structured fact extraction and pre-write fact admission/revision; not intended for general-purpose chat, creative writing, or math/coding benchmarks. Training scripts and datasets are not publicly released.
 - **Companion Memory Engine (ZeroMem)**: `https://github.com/IMLIULIAN/zeromem`
-- **Model Docs, Prompts, Modelfiles & Synthetic Verification Scripts**: `https://github.com/lifdjgfndgn/qwen3.5-4b-memory-v2`
+- **Model Docs, Prompts, Modelfiles & Synthetic Verification Scripts**: `https://github.com/IMLIULIAN/qwen3.5-4b-memory-v2`
 - **ModelScope Mirror**: `https://modelscope.cn/models/IMLIULIAN/qwen3.5-4b-memory-v2`
 - **Hugging Face**: `https://huggingface.co/IMLIULIAN/qwen3.5-4b-memory-v2`
 
-## License
+## License, Attribution & Compatibility
 
-Apache License 2.0 (`Apache-2.0`), derived from `Qwen/Qwen3.5-4B` (Apache-2.0).
+- **License**: Apache License 2.0 (`Apache-2.0`), derived from [`Qwen/Qwen3.5-4B`](https://huggingface.co/Qwen/Qwen3.5-4B) (Qwen Team, Alibaba Cloud, Apache-2.0). See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+- **Author**: **B站IM榴莲 (IMLIULIAN)** · **ZeroZoneX**
+- **Companion Local Engines**: [`ZeroMem (零忆)`](https://github.com/IMLIULIAN/zeromem) (Apache-2.0) and [`@imliulian/dsh-zeromem`](https://github.com/IMLIULIAN/dsh-zeromem) (AGPL-3.0).
+- **Schema Lineage & Compatibility**: The structured fact JSON schema (`bank`, `type: world | experience | observation`, `occurred_start` / `occurred_end` / `mentioned_at`, `where`, `entities`) is inspired by and conceptually compatible with [**Vectorize Hindsight**](https://github.com/vectorize-io/hindsight) (MIT License); no Hindsight source code is included.
+- **Name Disambiguation**: The companion engine **ZeroMem (零忆)** is an independent local SQLite/FTS5 memory engine and is **not** affiliated with or derived from the academic paper *Zero-Mem: Zero-Token Memory Operations for LLM Agents* (Yilin Xiao et al., [arXiv:2607.29377](https://arxiv.org/abs/2607.29377), July 2026).

@@ -148,7 +148,10 @@ See [examples/sample_io.md](examples/sample_io.md) for JSON request/response wal
 
 ---
 
-## License & Attribution
+## License, Attribution & Compatibility
 
-- Licensed under the [Apache License 2.0](LICENSE).
-- Built upon [Qwen/Qwen3.5-4B](https://huggingface.co/Qwen/Qwen3.5-4B) by the Qwen Team, Alibaba Cloud (Apache-2.0). See [NOTICE](NOTICE).
+- **Author**: **B站IM榴莲 (IMLIULIAN)** · **ZeroZoneX**
+- **License**: Licensed under the [Apache License 2.0](LICENSE). Built upon [Qwen/Qwen3.5-4B](https://huggingface.co/Qwen/Qwen3.5-4B) by the Qwen Team, Alibaba Cloud (Apache-2.0). See [NOTICE](NOTICE).
+- **Companion Local Engines**: [`ZeroMem (零忆)`](https://github.com/IMLIULIAN/zeromem) (zero-dependency Python SQLite/FTS5 engine, Apache-2.0) and [`@imliulian/dsh-zeromem`](https://github.com/IMLIULIAN/dsh-zeromem) (DeepSeek Harness plugin, AGPL-3.0).
+- **Schema Lineage & Compatibility**: The fact-extraction and pre-write admission JSON schema conventions (`bank`, `type: world | experience | observation`, `occurred_start` / `occurred_end` / `mentioned_at`, `where`, `entities`) are inspired by and conceptually compatible with [**Vectorize Hindsight**](https://github.com/vectorize-io/hindsight) (MIT License), enabling smooth integration with both Hindsight-compatible pipelines and ZeroMem; no Hindsight source code is included.
+- **Name Disambiguation**: The companion local engine **ZeroMem (零忆)** (by **B站IM榴莲 / IMLIULIAN / ZeroZoneX**) is an independent open-source project and is **not** affiliated with or derived from the academic paper *Zero-Mem: Zero-Token Memory Operations for LLM Agents* (Yilin Xiao et al., [arXiv:2607.29377](https://arxiv.org/abs/2607.29377), July 2026).

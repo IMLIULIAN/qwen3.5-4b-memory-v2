@@ -1,5 +1,5 @@
-Qwen3.5-4B-Memory-V2
-Copyright 2026 lifdjgfndgn
+Qwen3.5-4B-Memory-V2 (by ZeroZoneX)
+Copyright 2026 B站IM榴莲 (IMLIULIAN)
 
 This project and its model weights are licensed under the Apache License, Version 2.0.
 
@@ -12,3 +12,18 @@ Summary of Modifications:
 - Fine-tuned via LoRA (r=16, alpha=32) for structured fact extraction and
   pre-write fact verification / revision in local memory pipelines.
 - Exported merged GGUF quantizations (Q8_0 and Q4_K_M) and Ollama Modelfiles.
+
+Schema Lineage & Ecosystem Compatibility:
+The prompt/output JSON schema conventions used by this model (including bank
+partitioning, fact types "world" / "experience" / "observation", temporal
+fields occurred_start / occurred_end / mentioned_at, and where / entities
+metadata) are inspired by and conceptually compatible with Vectorize Hindsight
+(https://github.com/vectorize-io/hindsight, MIT License), and also serve as the
+companion specialist model for ZeroMem (https://github.com/IMLIULIAN/zeromem).
+No Vectorize Hindsight source code is included in this repository.
+
+Name Disambiguation:
+Companion local memory engine ZeroMem (零忆, by B站IM榴莲 / IMLIULIAN / ZeroZoneX)
+is an independent open-source project and is not affiliated with, derived from,
+or related to the academic paper "Zero-Mem: Zero-Token Memory Operations for
+LLM Agents" (Yilin Xiao et al., arXiv:2607.29377, July 2026).
